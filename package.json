@@ -1,10 +1,10 @@
 {
-  "name": "zustand-namespaces",
-  "version": "0.1.2",
+  "name": "zustand-multi-persist",
+  "version": "0.1.0",
   "author": "Gabriel Saunders",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mooalot/zustand-namespaces"
+    "url": "https://github.com/mooalot/zustand-multi-persist"
   },
   "type": "module",
   "main": "./dist/index.umd.js",
@@ -22,8 +22,7 @@
   "keywords": [
     "react",
     "zustand",
-    "namespace",
-    "slices"
+    "persist"
   ],
   "scripts": {
     "dev": "vite",
@@ -59,7 +58,7 @@
   },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "zustand": ">=4.0.0"
+    "zustand": ">=5.0.0"
   },
   "license": "MIT"
 }

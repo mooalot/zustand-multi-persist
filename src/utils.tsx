@@ -19,19 +19,13 @@ type ExtractPersistType<S> = S extends { persist: any } ? S['persist'] : never;
 type StoreMultiPersist<S, A> = {
   persistMap: A extends Record<string, ModifiedPersistOptions<any, any>>
     ? {
-        [K in keyof A]: A[K] extends ModifiedPersistOptions<infer T, infer U>
+        [K in keyof A]: A[K] extends ModifiedPersistOptions<any, infer U>
           ? ExtractPersistType<StoreMutators<S, U>['zustand/persist']>
           : never;
       }
     : never;
 };
 type WithMultiPersist<S, A> = Write<S, StoreMultiPersist<S, A>>;
-
-type Func<T, R> = (arg: T) => R;
-function compose<T, R>(...funcs: Func<T, R>[]): Func<T, R> {
-  //@ts-ignore
-  return (args) => funcs.reduceRight((acc, fn) => fn(acc), args);
-}
 
 type ModifiedPersistOptions<T, U = T> = Omit<PersistOptions<T, U>, 'name'>;
 

@@ -12,6 +12,7 @@ type AppState = {
   count2: number;
   increamentCount: () => void;
   increamentCount2: () => void;
+  resetAll: () => void;
 };
 
 const storage1: { [key: string]: string } = {};
@@ -45,7 +46,7 @@ const storage2Implementation: StateStorage = {
 // Create zustand store
 const useStore = create<AppState>()(
   multiPersist(
-    (set, get) => ({
+    (set) => ({
       count: 0,
       count2: 0,
       increamentCount: () => {
@@ -53,6 +54,7 @@ const useStore = create<AppState>()(
         set((state) => ({ count: state.count + 1 }));
       },
       increamentCount2: () => set((state) => ({ count2: state.count2 + 1 })),
+      resetAll: () => set({ count: 0, count2: 0 }),
     }),
     {
       count: {
@@ -89,6 +91,16 @@ const App = () => {
 describe('multiPersist', () => {
   afterEach(() => {
     cleanup();
+    act(() => {
+      useStore.getState().resetAll();
+    });
+    delete storage1.count;
+    delete storage2.count2;
+  });
+
+  test('should have persistMap with each key on store', () => {
+    expect(useStore.persistMap.count).toBeDefined();
+    expect(useStore.persistMap.count2).toBeDefined();
   });
 
   test('should have count', async () => {

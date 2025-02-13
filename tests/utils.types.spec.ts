@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { multiPersist } from '../src';
 import { expectType } from 'ts-expect';
-import { persist } from 'zustand/middleware';
 
 describe('multiPersist', () => {
   test('should create a store with multiple persist', () => {
@@ -10,7 +9,7 @@ describe('multiPersist', () => {
       admin: { name: string; role: string };
     }>()(
       multiPersist(
-        (set, get) => ({
+        () => ({
           user: {
             name: 'John',
             age: 30,
