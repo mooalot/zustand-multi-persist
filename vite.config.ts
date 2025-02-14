@@ -12,7 +12,7 @@ export default defineConfig({
     outDir: 'dist', // Output directory for build files
     lib: {
       entry: 'src/index.ts', // Entry point for your library
-      name: 'ZustandSlicer', // Global variable name if your library is used in a non-ESM environment
+      name: 'ZustandMultiPersist', // Global variable name if your library is used in a non-ESM environment
       fileName: (format) => `index.${format}.js`, // Output file naming pattern
     },
     rollupOptions: {

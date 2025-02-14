@@ -1,43 +1,6 @@
-import {
-  StateCreator,
-  StoreApi,
-  StoreMutatorIdentifier,
-  StoreMutators,
-} from 'zustand';
-import { persist, PersistOptions } from 'zustand/middleware';
-
-type Write<T, U> = Omit<T, keyof U> & U;
-
-declare module 'zustand/vanilla' {
-  interface StoreMutators<S, A> {
-    'zustand/multi-persist': WithMultiPersist<S, A>;
-  }
-}
-
-type ExtractPersistType<S> = S extends { persist: any } ? S['persist'] : never;
-
-type StoreMultiPersist<S, A> = {
-  persistMap: A extends Record<string, ModifiedPersistOptions<any, any>>
-    ? {
-        [K in keyof A]: A[K] extends ModifiedPersistOptions<any, infer U>
-          ? ExtractPersistType<StoreMutators<S, U>['zustand/persist']>
-          : never;
-      }
-    : never;
-};
-type WithMultiPersist<S, A> = Write<S, StoreMultiPersist<S, A>>;
-
-type ModifiedPersistOptions<T, U = T> = Omit<PersistOptions<T, U>, 'name'>;
-
-type MultiPersist = <
-  T,
-  R extends Record<string, ModifiedPersistOptions<T, any>>,
-  Mps extends [StoreMutatorIdentifier, unknown][] = [],
-  Mcs extends [StoreMutatorIdentifier, unknown][] = []
->(
-  creator: StateCreator<T, [...Mps, ['zustand/multi-persist', unknown]], Mcs>,
-  options: R
-) => StateCreator<T, Mps, [['zustand/multi-persist', R], ...Mcs]>;
+import { StoreApi } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { MultiPersist } from './types';
 
 const multiPersistImplementation = ((creator, options) => {
   if (Object.keys(options).length === 0)
