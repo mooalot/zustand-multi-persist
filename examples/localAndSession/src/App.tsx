@@ -14,13 +14,14 @@ const useStore = create<State>()(
       sessionCount: 0,
     }),
     {
+      // The key is the name of the storage
       local: {
         storage: createJSONStorage(() => localStorage),
-        partialize: (state) => ({ count: state.localCount }),
+        partialize: (state) => ({ localCount: state.localCount }),
       },
       session: {
         storage: createJSONStorage(() => sessionStorage),
-        partialize: (state) => ({ text: state.sessionCount }),
+        partialize: (state) => ({ sessionCount: state.sessionCount }),
       },
     }
   )
